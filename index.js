@@ -21,15 +21,28 @@ const readFile = (filename) => {
                 reject(err)
             }
             // tasks list data from file
-            const tasks = data.split("\n")
+            const tasks = JSON.parse(data)
             resolve(tasks)
+        })
+    })
+}
+
+const writeFile = (filename, data) => {
+    return new Promise((resolve, reject) => {
+        // write the tasks to the file
+        fs.writeFile(filename, data, (err) => {
+            if (err) {
+                console.error(err)
+                reject(err)
+            }
+            resolve(true)
         })
     })
 }
 
 app.get('/', (req, res) => {
     console.log('Loading tasks')
-    readFile('tasks').then((tasks) => {
+    readFile('tasks.json').then((tasks) => {
         console.log(tasks)
         res.render('index', {tasks: tasks})
     });
@@ -37,22 +50,50 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
     console.log('Adding task')
-    readFile('tasks').then((tasks) => {
-        newTask = req.body.task
-        if (newTask != "") {
+    readFile('tasks.json').then((tasks) => {
+        let index
+        // console.log(tasks)
+        // console.log(tasks.length)
+        // console.log(tasks[1])
+        if (tasks.length === 0) {
+            index = 0
+        } else {
+            // console.log(tasks[tasks.lenght - 1])
+            index = tasks[tasks.length - 1].id + 1
+        }
+        const newTask = {
+            'id': index,
+            'task': req.body.task,
+        }
+        console.log(newTask)
+        tasks.push(newTask)
+        console.log(tasks)
+        data = JSON.stringify(tasks, null, 2)
+        console.log(data)
+        newTaskText = req.body.task
+        if (newTaskText != "") {
             tasks.push(newTask)
         }
-        const data = tasks.join("\n")
-        fs.writeFile('tasks', data, (err) => {
-            if (err) {
-                console.log(err)
-                return;
-            }
-            res.redirect('/')
-        })
+        writeFile('tasks.json', data)
+        res.redirect('/')
+        
     })
 })
 
+app.get('/delete-task/:taskId', (req, res) => {
+    let deleteTaskId = parseInt(req.params.taskId)
+    console.log('Deleting task id: ' + deleteTaskId)
+    readFile('tasks.json').then((tasks) => {
+        tasks.forEach((task, index) => {
+            if (task.id === deleteTaskId) {
+                tasks.splice(index, 1)
+            }
+        });
+        data = JSON.stringify(tasks, null, 2)
+        writeFile('tasks.json', data)
+        res.redirect('/')
+    })
+})
 app.listen(3001, () => {
     console.log('http://localhost:3001')
 })
