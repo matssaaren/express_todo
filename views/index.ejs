@@ -15,7 +15,7 @@
       <div class="row">
         <div class="input-field col s12">
           <label for="task">To do</label>
-          <input type="text" id="task" name="task" placeholder="Enter a task"></input>
+          <input type="text" id="task" name="task" placeholder="Enter a task" autocomplete="off"></input>
         </div>
       </div>
       <input class="btn" value="Add Task" type="submit"></input>
@@ -29,6 +29,14 @@
         <% }) %> 
         
     </ul>
-          
+    <div class="row">
+      <form class="col s12">
+        <div class="row">
+          <div class="input-field col s12">
+            <a href="clear-all/" class="btn">Clear All</a>
+          </div>
+        </div>
+      </form>
+    </div>
 </body>
 </html>

@@ -94,6 +94,13 @@ app.get('/delete-task/:taskId', (req, res) => {
         res.redirect('/')
     })
 })
+app.get('/clear-all/', (req, res) => {
+    console.log('Clearing all tasks')
+    tasks = []
+    data = JSON.stringify(tasks, null, 2)
+    writeFile('tasks.json', data)
+    res.redirect('/')
+})
 app.listen(3001, () => {
     console.log('http://localhost:3001')
 })
