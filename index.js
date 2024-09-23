@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
     console.log('Loading tasks')
     readFile('tasks.json').then((tasks) => {
         console.log(tasks)
-        res.render('index', {tasks: tasks})
+        res.render('index', {tasks: tasks, error: null})
     });
 });
 

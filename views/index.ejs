@@ -9,34 +9,41 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
-    <!-- Input aria -->
-  <div class="row">
-    <form class="col s12" method="post" action="/">
-      <div class="row">
-        <div class="input-field col s12">
-          <label for="task">To do</label>
-          <input type="text" id="task" name="task" placeholder="Enter a task" autocomplete="off"></input>
-        </div>
-      </div>
-      <input class="btn" value="Add Task" type="submit"></input>
-    </form>
-  </div>
-<!-- Todo cards -->
-  
-    <ul class="collection">
-        <% tasks.forEach((task) => {%>
-            <li class="collection-item"><%= task.task %> <a href="delete-task/<%= task.id %>" class="secondary-content"><i class="material-icons">delete</i></a> </li>
-        <% }) %> 
-        
-    </ul>
+  <div class="container">
     <div class="row">
-      <form class="col s12">
-        <div class="row">
-          <div class="input-field col s12">
-            <a href="clear-all/" class="btn">Clear All</a>
-          </div>
-        </div>
-      </form>
+      <div class="col s12">
+        <div class="card">
+          <div class="card-content">
+            <% if (error !== null) {%>
+            <div class="row teal lighten-4">
+              <div class="col s12">
+                <p class="center-align"><%= error %></p>
+              </div>
+            </div>
+            <% } %>
+            <span class="card-title">ToDo List</span>
+            <form class="" method="post" action="/">
+              <div class="row">
+                <div class="input-field col s12">
+                  <label for="task">To do</label>
+                  <input type="text" id="task" name="task" placeholder="Enter a task" autocomplete="off"></input>
+                </div>
+              </div>
+              <input class="btn" value="Add Task" type="submit"></input>
+            </form>
+            <ul class="collection">
+              <% tasks.forEach((task) => {%>
+                  <li class="collection-item"><%= task.task %> <a href="delete-task/<%= task.id %>" class="secondary-content"><i class="material-icons">delete</i></a> </li>
+              <% }) %> 
+            </ul>
+            <div class="input-field">
+              <a href="clear-all/" class="btn">Clear All</a>
+            </div>
+          </div>   
+        </div>    
+      </div>
     </div>
+  </div>
+      
 </body>
 </html>
