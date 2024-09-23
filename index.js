@@ -50,34 +50,43 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
     console.log('Adding task')
-    readFile('tasks.json').then((tasks) => {
-        let index
-        // console.log(tasks)
-        // console.log(tasks.length)
-        // console.log(tasks[1])
-        if (tasks.length === 0) {
-            index = 0
-        } else {
-            // console.log(tasks[tasks.lenght - 1])
-            index = tasks[tasks.length - 1].id + 1
-        }
-        const newTask = {
-            'id': index,
-            'task': req.body.task,
-        }
-        console.log(newTask)
-        tasks.push(newTask)
-        console.log(tasks)
-        data = JSON.stringify(tasks, null, 2)
-        console.log(data)
-        newTaskText = req.body.task
-        if (newTaskText != "") {
-            tasks.push(newTask)
-        }
-        writeFile('tasks.json', data)
-        res.redirect('/')
-        
-    })
+    let error = null
+    if(req.body.task.trim().length === 0) {
+        error = 'Please insert correct task data'
+        readFile('./tasks.json').then(tasks => {
+            res.render('index', {
+                tasks: tasks,
+                error: error
+            })
+        })
+    } else {
+        readFile('tasks.json').then((tasks) => {
+                let index
+                // console.log(tasks)
+                // console.log(tasks.length)
+                // console.log(tasks[1])
+                if (tasks.length === 0) {
+                    index = 0
+                } else {
+                    // console.log(tasks[tasks.lenght - 1])
+                    index = tasks[tasks.length - 1].id + 1
+                }
+                const newTask = {
+                    'id': index,
+                    'task': req.body.task,
+                }
+                console.log(newTask)
+                tasks.push(newTask)
+                console.log(tasks)
+                data = JSON.stringify(tasks, null, 2)
+                console.log(data)
+                newTaskText = req.body.task
+                if (newTaskText != "") {
+                    tasks.push(newTask)
+                }
+                writeFile('tasks.json', data)
+                res.redirect('/')
+    })}
 })
 
 app.get('/delete-task/:taskId', (req, res) => {
