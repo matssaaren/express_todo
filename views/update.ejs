@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+        <div class="card">
+          <div class="card-content">
+            <% if (error !== null) {%>
+            <div class="row teal lighten-4">
+              <div class="col s12">
+                <p class="center-align"><%= error %></p>
+              </div>
+            </div>
+            <% } %>
+            <span class="card-title">ToDo List</span>
+            <form class="" method="post" action="/update-task/">
+              <div class="row">
+                <div class="input-field col s12">
+                  <label for="task">To do</label>
+                  <input type="text" id="task" name="task" value="<%= edit %>" placeholder="Enter a task" autocomplete="off">
+                  <input type="hidden" id="taskId" name="taskId" value="<%= taskId %>">
+                </div>
+              </div>
+              <a class="btn" value="Update Task" href="/update-task/">Update</a>
+              <a class="btn" href="/">Cancel</a>
+            </form> 
+        </div>    
+      </div>
+    </div>
+  </div>
+      
+</body>
+</html>

@@ -22,19 +22,33 @@
             </div>
             <% } %>
             <span class="card-title">ToDo List</span>
-            <form class="" method="post" action="/">
+            <form method="post" action="<%= edit === null ? '/' : '/update-task/' %>">
               <div class="row">
                 <div class="input-field col s12">
                   <label for="task">To do</label>
-                  <input type="text" id="task" name="task" placeholder="Enter a task" autocomplete="off"></input>
+                  <input type="text" id="task" name="task" placeholder="Enter a task" autocomplete="off" value="<%= edit !== null ? tasks[edit].task : '' %>">
                 </div>
               </div>
-              <input class="btn" value="Add Task" type="submit"></input>
+              <% if (edit === null) { %>
+                <input class="btn" value="Add Task" type="submit">
+              <% } else { %>
+                <input class="btn" value="Update Task" type="submit">
+                <input type="hidden" id="edit" name="edit" value="<%= edit %>">
+                <a class="btn" href="/">Cancel</a>
+              <% } %>
             </form>
             <ul class="collection">
-              <% tasks.forEach((task) => {%>
-                  <li class="collection-item"><%= task.task %> <a href="delete-task/<%= task.id %>" class="secondary-content"><i class="material-icons">delete</i></a> </li>
-              <% }) %> 
+              <% tasks.forEach((task, index) => { %>
+                <li class="collection-item">
+                  <%= task.task %>
+                  <a href="delete-task/<%= task.id %>" class="secondary-content">
+                    <i class="material-icons">delete</i>
+                  </a>
+                  <a href="update-task/<%= index %>" class="secondary-content">
+                    <i class="material-icons">create</i>
+                  </a>
+                </li>
+              <% }) %>
             </ul>
             <div class="input-field">
               <a href="clear-all/" class="btn">Clear All</a>
